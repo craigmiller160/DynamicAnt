@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns="io.craigmiller160.github.com/locus-schema"
-           targetNamespace="io.craigmiller160.github.com/locus-schema"
+           xmlns="https://github.com/craigmiller160/DynamicAnt/blob/master/dynamic-ant-input.xsd"
+           targetNamespace="https://github.com/craigmiller160/DynamicAnt/blob/master/dynamic-ant-input.xsd"
            elementFormDefault="qualified">
+
+    <xs:element name="project">
+    	<xs:complexType>
+    		<xs:attribute name="name" type="xs:string" use="required" />
+    		<xs:attribute name="version" type="xs:decimal" use="required" />
+    	</xs:complexType>
+    </xs:element>
 
 </xs:schema>
