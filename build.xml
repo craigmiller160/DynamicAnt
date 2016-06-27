@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DynamicAnt" default="execute">
+	<fail message="No input file specififed. Please re-run with -Dinput flag">
+		<condition>
+			<not>
+				<isset property="input" />
+			</not>
+		</condition>
+	</fail>
+	<target name="clean">
+		<delete file="gen-build.xml" /> 
+	</target>
+	<target name="generate" depends="clean">
+		<xslt in="${input}" out="gen-build.xml" style="ant-generator.xslt" />
+	</target>
+	<target name="execute" depends="generate">
+		<antcall target="execute-only" />
+	</target>
+	<target name="execute-only">
+		<ant antfile="gen-build.xml" />
+	</target>
+</project>
