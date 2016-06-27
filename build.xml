@@ -15,6 +15,7 @@
 	</target>
 	<target name="execute" depends="generate">
 		<antcall target="execute-only" />
+		<delete file="gen-build.xml" />
 	</target>
 	<target name="execute-only">
 		<ant antfile="gen-build.xml" />
