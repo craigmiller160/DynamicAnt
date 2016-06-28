@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns="https://github.com/craigmiller160/DynamicAnt/blob/master/dynamic-ant-input.xsd"
-           targetNamespace="https://github.com/craigmiller160/DynamicAnt/blob/master/dynamic-ant-input.xsd"
+           xmlns="https://github.com/craigmiller160/DynamicAnt"
+           targetNamespace="https://github.com/craigmiller160/DynamicAnt"
            elementFormDefault="qualified">
-
-    <xs:element name="project">
+    <xs:annotation>
+    	<xs:documentation>The schema for the input to a dynamic ant build for PilotFish custom modules. It defines elements that store the properties the ant build needs to execute. These values will be put through an XSLT transformation that creates an ant script that will perform the specified build.</xs:documentation>
+    </xs:annotation>
+    <xs:element name="ant">
+    	<xs:annotation>
+    		<xs:documentation>The ant element is the root of the whole schema. It should simply contain namespace information</xs:documentation>
+    	</xs:annotation>
     	<xs:complexType>
-    		<xs:attribute name="name" type="xs:string" use="required" />
-    		<xs:attribute name="version" type="xs:decimal" use="required" />
-    	</xs:complexType>
+	    	<xs:sequence>
+	    		<xs:element name="project">
+					<xs:annotation>
+	    				<xs:documentation>The first element of the schema, the project element contains two attributes, "name" and "version", that are required. Both are used to define the final jar that is created </xs:documentation>
+	    			</xs:annotation>
+	    			<xs:complexType>
+						<xs:attribute name="name" type="xs:string" use="required" />
+	    				<xs:attribute name="version" type="xs:decimal" use="required" />
+	    			</xs:complexType>
+	    		</xs:element>
+	    		<xs:element name="info" type="info" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The info element wraps optional info to override several default values used in the build script. See the documentation for the info type to see which values are available as children for this element</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="files" type="files" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The files element wraps the individual files that need to be copied out of the development directory to use in the jar. The files specified here will have both their source (.java) and class (.class) files copied. If a compiled class has multiple files (due to inner classes), all of them will be retrieved. See the files type section for more information.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
     </xs:element>
-
+    <xs:complexType name="info">
+    	<xs:sequence>
+    		<xs:element name="author" minOccurs="0" maxOccurs="1">
+    			<xs:annotation>
+    				<xs:documentation>The author element allows a specific author to be specified. If no author is specified, "PilotFish Developer" will be used as the default. This value is placed in the manifest in the completed jar.</xs:documentation>
+    			</xs:annotation>
+    			<xs:annotation name="name" type="xs:string" use="required" />
+    		</xs:element>
+    		<xs:element name="devRoot" minOccurs="0" maxOccurs="1">
+    			<xs:annotation>
+    				<xs:documentation>The devRoot element defines the path to the root development directory. This is NOT the development directory itself, rather it is a folder that can contain multiple copies of the development directory for multiple projects. This path assumes that it is a relative path starting from the user's home directory, so structure it accordingly. If a directory like devRoot is not in use, this element defaults to the user's home directory path.</xs:documentation>
+    			</xs:annotation>
+    			<xs:complexType>
+    				<!-- TODO need to figure out a good default value for this element -->
+    				<xs:attribute name="pathFromHome" type="xs:string" use="required" />
+    			</xs:complexType>
+    		</xs:element>
+    		<xs:element name="devDir" minOccurs="0" maxOccurs="1">
+    			<xs:annotation>
+    				<xs:documentation>The devDir element defines the path to the directory the development files are in. This is a relative path from the devRoot, or if the devRoot is not defined, then from the user's home directory. If no value is supplied, it assumes that the directory is in the root of its parent, and its name is "Main".</xs:documentation>
+    			</xs:annotation>
+    			<!-- TODO need to figure out hwo to handle default value for this one too -->
+    			<xs:attribute name="pathFromDevRoot" type="xs:string" use="required" />
+    		</xs:element>
+    	</xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="files">
+    	<xs:sequence>
+    		<xs:element name="file" minOccurs="1" maxOccurs="unbounded">
+    			<xs:annotation>
+    				<xs:documentation>The file element points to a specific file that is needed for the jar the ant script will build. There are three attributes involved, two required, one optional. The pkg and name elements are required. The pkg element is the package path to the file, the name element is the name of the file (without the extension, since both the .java and .class files will be retrieved). The optional subproject element is used when the file in question is in one of the subproject directories. If it is not used to specify the name of the subproject the file is in, the script will assume the file is in the main src directory.</xs:documentation>
+    			</xs:annotation>
+    			<xs:attribute name="subproject" type="xs:string" use="optional" />
+    			<xs:attribute name="pkg" type="xs:string" use="required" />
+    			<xs:attribute name="name" type="xs:string" use="required" />
+    		</xs:element>
+    	</xs:sequence>
+    </xs:complexType>
 </xs:schema>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MyProject" version="1.0">
+	<dev dir="MyDevDir" />
+	<author name="Craig Miller" />
+	<files>
+		<src>
+			<file name="XSLTProcessor" pkg="com/pilotfish/eip/modules/transform" />
+		</src>
+		<subprojects name="modules-email">
+			<file name="EmailTransport" pkg="com/pilotfish/eip/modules/email" />
+		</subprojects>
+	</files>
+</project>
+

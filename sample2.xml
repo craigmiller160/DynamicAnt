@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ant:ant xmlns:ant="https://github.com/craigmiller160/DynamicAnt"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="https://github.com/craigmiller160/DynamicAnt https://github.com/craigmiller160/DynamicAnt/blob/master/dynamic-ant-input.xsd">
+	<ant:project name="sample" version="1.0" />
+	<ant:files>
+		<ant:file pkg="com.pilotfish.eip.modules" name="TransformProcessor" />
+	</ant:files>
+</ant:ant>
