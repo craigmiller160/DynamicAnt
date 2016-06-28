@@ -7,6 +7,13 @@
 			</not>
 		</condition>
 	</fail>
+	<fail message="User home directory not specified. Please re-run with -Dhome flag">
+		<condition>
+			<not>
+				<isset property="home" />
+			</not>
+		</condition>
+	</fail>
 	<target name="clean">
 		<delete file="gen-build.xml" /> 
 	</target>
