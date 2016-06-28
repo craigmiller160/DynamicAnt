@@ -55,9 +55,15 @@
     			<xs:annotation>
     				<xs:documentation>The devDir element defines the path to the directory the development files are in. This is a relative path from the devRoot, or if the devRoot is not defined, then from the user's home directory. If no value is supplied, it assumes that the directory is in the root of its parent, and its name is "Main".</xs:documentation>
     			</xs:annotation>
-    			<!-- TODO need to figure out hwo to handle default value for this one too -->
+    			<!-- TODO need to figure out how to handle default value for this one too -->
     			<xs:attribute name="pathFromDevRoot" type="xs:string" use="required" />
     		</xs:element>
+            <xs:element name="mainModule" minOccurs="0" maxoccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The mainModule element defines the name of the main IntelliJ project module. This is needed to produce the path to the location of the class files in the devDir location. If not supplied, it will default to "PilotFish"</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="name" type="xs:string" use="required" />
+            </xs:element>
     	</xs:sequence>
     </xs:complexType>
     <xs:complexType name="files">
