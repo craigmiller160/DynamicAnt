@@ -70,6 +70,11 @@
           <xsl:text>${dir.devDir}/subprojects</xsl:text>
         </xsl:attribute>
       </property>
+      <property name="dir.devDir.out">
+        <xsl:attribute name="value">
+          <xsl:text>${dir.devDir}/out/production</xsl:text>
+        </xsl:attribute>
+      </property>
       <property name="intellij.mainModule">
         <xsl:attribute name="value">
           <xsl:choose>
@@ -143,6 +148,95 @@
             </xsl:attribute>
           </mkdir>
         </xsl:for-each>
+      </target>
+      <target depends="prepare" name="copy">
+        <xsl:for-each select="ant:files/ant:file">
+          <xsl:variable name="pkgVal" select="replace(replace(replace(@pkg,'^/',''),'/$',''),'\.','/')" />
+          <copy>
+            <xsl:attribute name="todir">
+              <xsl:choose>
+                <xsl:when test="@subproject">
+                  <xsl:value-of select="concat('${dir.project.build.sources.subprojects}','/',@subproject,'/',$pkgVal)" />
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="concat('${dir.project.build.sources.src}','/',$pkgVal)" />
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>
+            <xsl:attribute name="file">
+              <xsl:choose>
+                <xsl:when test="@subproject">
+                  <xsl:value-of select="concat('${dir.devDir.subprojects}','/',@subproject,'/',$pkgVal,'/',@name,'.java')" />
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="concat('${dir.devDir.src}','/',$pkgVal,'/',@name,'.java')" />
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>
+          </copy>
+          <copy>
+            <xsl:attribute name="todir">
+              <xsl:value-of select="concat('${dir.project.build}','/',$pkgVal)" />
+            </xsl:attribute>
+            <fileset>
+              <xsl:attribute name="dir">
+                <xsl:choose>
+                  <xsl:when test="@subproject">
+                    <xsl:value-of select="concat('${dir.devDir.out}','/',@subproject,'/',$pkgVal)" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="concat('$dir.devDir.out}','/','${intellij.mainModule}','/',$pkgVal)" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:attribute>
+              <xsl:attribute name="includes">
+                <xsl:value-of select="concat(@name,'*.class')" />
+              </xsl:attribute>
+            </fileset>
+          </copy>
+        </xsl:for-each>
+      </target>
+      <target name="jar-only">
+        <delete>
+          <fileset includes="*.jar">
+            <xsl:attribute name="dir">
+              <xsl:text>${dir.project}</xsl:text>
+            </xsl:attribute>
+          </fileset>
+        </delete>
+        <jar>
+          <xsl:attribute name="destfile">
+            <xsl:text>${dir.project}/${project.name}-${project.version}.jar</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="basedir">
+            <xsl:text>${dir.project.build}</xsl:text>
+          </xsl:attribute>
+          <manifest>
+            <attribute name="Title">
+              <xsl:attribute name="value">
+                <xsl:text>${project.name}</xsl:text>
+              </xsl:attribute>
+            </attribute>
+            <attribute name="Company">
+              <xsl:attribute name="value">
+                <xsl:text>${project.company}</xsl:text>
+              </xsl:attribute>
+            </attribute>
+            <attribute name="Built-By">
+              <xsl:attribute name="value">
+                <xsl:text>${project.author}</xsl:text>
+              </xsl:attribute>
+            </attribute>
+            <attribute name="Version">
+              <xsl:attribute name="value">
+                <xsl:text>${project.version}</xsl:text>
+              </xsl:attribute>
+            </attribute>
+          </manifest>
+        </jar>
+      </target>
+      <target depends="copy" name="jar">
+        <antcall target="jar-only" />
       </target>
     </project>
   </xsl:template>
