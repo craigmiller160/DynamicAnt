@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ant:ant xmlns:ant="https://github.com/craigmiller160/DynamicAnt"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="https://github.com/craigmiller160/DynamicAnt https://github.com/craigmiller160/DynamicAnt/blob/master/dynamic-ant-input.xsd">
+	<ant:project name="ftpListener-crlCompat" version="1.3" />
+	<ant:info>
+		<ant:author name="Craig Miller" />
+		<ant:devRoot pathFromHome="PilotFish/DevRoot" />
+		<ant:devDir pathFromDevRoot="CRL-86" />
+		<ant:mainModule name="PilotFish" />
+	</ant:info>
+	<ant:files>
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FTPListener" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FTPPathConfigItem" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="SFTPJschListenerHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="SFTPListenerHandler" />
+	</ant:files>
+</ant:ant>

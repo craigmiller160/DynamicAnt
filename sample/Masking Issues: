@@ -1,0 +1,36 @@
+Masking Issues:
+
+THE GOAL: Masking should make fields that we know will always have different data the same, by ensuring that the same value will be present in that field for both Capture and Replay.
+
+THE CURRENT PLANT:
+1) Masking is done in the Replay stage.
+2) A special XSLT is injected into the Target Transformation stage, right before the Target Transformer is run, to mask specific fields based on data type. This allows us to use XML, XPaths, etc.
+
+THE CORE OF THE PROBLEM: How to ensure that changes in Replay will actually result in an output that matches Capture better?
+
+PROBLEMS:
+1) Changing the system Capture is running on is both very difficult (modifying core classes) and very inadvisable (could introduce new bugs to old system). This means we can't inject an XSLT into the Target Transformation stage of the Capture system.
+2) Modifying Capture data in any way also could cause issues due to Capture likely running on a system in production, so that's another limitation on that end.
+3) Just wiping out the value in Replay (ie, XXXXX) doesn't get us anywhere unless the same change is made to Capture data, which has the above challenges.
+4) Retrieving a specific value from Capture to replace a value in Replay with would be ideal, but that brings us back to point 1, where we can't make many (or any) changes to the Capture system.
+5) There's no guarantee that XML data will exist prior to the Target Transformer in any given route. There are an infinite number of possible configurations.
+6) Modifying the data before Target Transformer may not accomplish anything anyway, because we frequently do things like Data Attribute Swap where we move data to an attribute and vice versa. This could result in a) doing masking based on the wrong data type (since types are based on the outputs), or b) doing useless masking that doesn't actually affect the output.
+7) 
+
+POTENTIAL SOLUTION:
+Doing masking at the Analysis phase might be much uglier, but it might ultimately be the only way to do it. Using file specifications that we know (ACORD, HL7, AL3, etc), even if the format is not in XML we still know the field structure, and can go through and do masking then.
+
+Ideally, we would try a raw diff right away, and only try doing masking and modifications if that diff fails.
+
+
+
+
+
+We're just collecting values from the Replay XSLT
+We then check the replay data for the values from XSLT, and record their positions
+if diff finds errors at those positions, we ignore them
+
+XSLT searches for known XML schemas
+
+
+

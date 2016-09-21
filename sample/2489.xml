@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ant:ant xmlns:ant="https://github.com/craigmiller160/DynamicAnt"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="https://github.com/craigmiller160/DynamicAnt https://github.com/craigmiller160/DynamicAnt/blob/master/dynamic-ant-input.xsd">
+	<ant:project name="ftpTransport-crlCompat" version="1.6" />
+	<ant:info>
+		<ant:author name="Craig Miller" />
+		<ant:devRoot pathFromHome="PilotFish/DevRoot" />
+		<ant:devDir pathFromDevRoot="PLIT-2489" />
+		<ant:mainModule name="PilotFish" />
+	</ant:info>
+	<ant:files>
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FTPTransport" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FtpTransportHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="AbstractFtpTransportHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="SFTPJschTransportHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="RegularFtpTransportHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FtpsTransportHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FtpTransportHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="SftpTransportHandler" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FtpTransportHandlerFactory" />
+		<ant:file pkg="com.pilotfish.eip.modules.file.ftp" name="FTPPathConfigItem" />
+	</ant:files>
+</ant:ant>

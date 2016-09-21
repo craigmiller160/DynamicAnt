@@ -38,8 +38,8 @@
         <xsl:attribute name="value">
           <xsl:choose>
             <xsl:when test="ant:info/ant:devRoot">
-              <xsl:variable name="devRootRaw" select="ant:info/ant:devRoot/@pathFromHome" />
-              <xsl:value-of select="replace(replace($devRootRaw,'/$',''),'^/','')" />
+              <xsl:variable name="devRootRaw" select="replace(replace(ant:info/ant:devRoot/@pathFromHome,'/$',''),'^/','')" />
+              <xsl:value-of select="concat($userHome,'/',$devRootRaw)" />
             </xsl:when>
             <xsl:otherwise>
               <xsl:value-of select="$userHome" />
@@ -51,8 +51,8 @@
         <xsl:attribute name="value">
           <xsl:choose>
             <xsl:when test="ant:info/ant:devDir">
-              <xsl:variable name="devDirRaw" select="ant:info/ant:devDir/@pathFromDevRoot" />
-              <xsl:value-of select="replace(replace($devDirRaw,'/$',''),'^/','')" />
+              <xsl:variable name="devDirRaw" select="replace(replace(ant:info/ant:devDir/@pathFromDevRoot,'/$',''),'^/','')" />
+              <xsl:value-of select="concat('${dir.devRoot}','/',$devDirRaw)" />
             </xsl:when>
             <xsl:otherwise>
               <xsl:text>Main</xsl:text>
@@ -185,7 +185,7 @@
                     <xsl:value-of select="concat('${dir.devDir.out}','/',@subproject,'/',$pkgVal)" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:value-of select="concat('$dir.devDir.out}','/','${intellij.mainModule}','/',$pkgVal)" />
+                    <xsl:value-of select="concat('${dir.devDir.out}','/','${intellij.mainModule}','/',$pkgVal)" />
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:attribute>

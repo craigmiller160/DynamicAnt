@@ -18,7 +18,16 @@
 		<delete file="gen-build.xml" /> 
 	</target>
 	<target name="generate" depends="clean">
-		<xslt in="${input}" out="gen-build.xml" style="ant-generator.xslt" />
+		<xslt in="${input}" out="gen-build.xml" style="ant-generator.xslt">
+			<classpath>
+				<!-- <pathelement path="../lib/*.jar" /> -->
+				<fileset dir="../lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<factory name="net.sf.saxon.TransformerFactoryImpl" />
+			<param name="home" expression="${home}" />
+		</xslt>
 	</target>
 	<target name="execute" depends="generate">
 		<antcall target="execute-only" />
